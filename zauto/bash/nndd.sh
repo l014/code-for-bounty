@@ -28,19 +28,13 @@ mkdir -p scan.out/dirb
 mkdir -p scan.out/gobust
 mkdir -p scan.out/skip 
 mkdir -p scan.out/nikto 
-#mkdir -p scan.out/ownfuzz.$1
+mkdir -p scan.out/ownfuzz.$1
 #host $1 | grep 'has address' | ip = `cut -d " " -f 4`
-nmap -A -T5 -v -v -Pn -p- -oA scan.out/nmapscans/$timestamp
+
+#nmap -A -T5 -v -v -Pn -p- -oA scan.out/nmapscans/$timestamp
 whatweb -a 3 -v -v $u | tee -a scan.out/whatweb/$timestamp
-uniscan -dsgj -u $u | tee -a scan.out/uniscans/$timestamp
-
-#dirb "http://"$u | tee -a scan.out/dirb/$u.out
-#dirb "https://"$u | tee -a scan.out/dirb/$u.out.2
-gobuster dir -r  -u $u  -t 50 -w lists/webmerged.txt | tee -a scan.out/gobust/$timestamp
-
-
-
-
-#gobuster dir -r -l -k -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0, Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8, Pragma: no-cache, Cache-Control: no-cache' -u $u  -t 50 -w lists/webmerged.txt | tee -a scan.out/gobust/gob.http.out.$u
+#uniscan -dsgj -u $u | tee -a scan.out/uniscans/$timestamp
+#gobuster dir -r  -u $u  -t 50 -w lists/webmerged.txt | tee -a scan.out/gobust/$timestamp
+gobuster dir -r -l -k -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0, Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8, Pragma: no-cache, Cache-Control: no-cache' -u $u  -t 50 -w lists/webmerged.txt | tee -a scan.out/gobust/gob.http.out
 #nikto -url $u | tee -a scan.out/nikto/$u.out
-skipfish -o scan.out/skip/$timestamp $u
+#skipfish -o scan.out/skip/$timestamp $u
