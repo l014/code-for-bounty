@@ -10,26 +10,26 @@ import random, time
 def arjun(url):
     
     #print("\n\t     /¯\_O_o_/\ ")
-    #print("\t_(ó-ó)/arjun.run \_O_o_")
+    print("\t_(ó-ó)/arjun.run \_O_o_")
     
-    os.system("./arj.sh "+str(url))
-    #subprocess.check_call(['./arj.sh', url])
+    #os.system("./arj.sh "+str(url))
+    subprocess.check_call(['./bash/./arj.sh', url])
     
 def xssRUN(url):
     
     print("\n\t     /¯\_O_o_/\ ")
     print("\t_(ó-ó)/xxstr.run \_O_o_")
-    subprocess.check_call(['./xss.sh', url])
+    subprocess.check_call(['./bash/./xss.sh', url])
 
 def bonIt(url):
     print("\n\t     /¯\_O_o_/\ ")
     print("\t_(ó-ó)/bouit.run \_O_o_")
-    subprocess.check_call(['./bon.sh', url])
+    subprocess.check_call(['./bash/./bon.sh', url])
     
 def nndd(d):
     print("\n\t     /¯\_O_o_/\ ")
     print("\t_(ó-ó)/.*..run   \_O_o_")
-    subprocess.check_call(['./nndd.sh', d])
+    subprocess.check_call(['./bash/./nndd.sh', d])
     
 def headerFUZZ(url):
 
