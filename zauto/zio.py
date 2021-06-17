@@ -10,32 +10,80 @@ import random, time
 def arjun(url):
     
     #print("\n\t     /¯\_O_o_/\ ")
-    print("\t_(ó-ó)/arjun.run \_O_o_")
+    #print("\t_(ó-ó)/arjun.run \_O_o_")
     
     #os.system("./arj.sh "+str(url))
-    subprocess.check_call(['./bash/./arj.sh', url])
+    subprocess.check_call(['./arj.sh', url])
+def sqlmap(url):
+    print("\[+]sqlmap /\_O_o_/\ ")
+    subprocess.check_call(['./sqlmap.sh', url])
+
+def dafox(url):
+    print("\[+]dafox /\_O_o_/\ ")
+    subprocess.check_call(['./dafox.sh', url])
+
+def injuRUN(url):
+    print("\[+]injectus /\_O_o_/\ ")
+    subprocess.check_call(['./inj0r.sh', url])
+    
+
     
 def xssRUN(url):
-    
-    print("\n\t     /¯\_O_o_/\ ")
+    print("\n\t     /\_O_o_/\ ")
     print("\t_(ó-ó)/xxstr.run \_O_o_")
-    subprocess.check_call(['./bash/./xss.sh', url])
+    subprocess.check_call(['./xss.sh', url])
 
 def bonIt(url):
-    print("\n\t     /¯\_O_o_/\ ")
+    print("\n\t     /\_O_o_/\ ")
     print("\t_(ó-ó)/bouit.run \_O_o_")
-    subprocess.check_call(['./bash/./bon.sh', url])
+    subprocess.check_call(['./bon.sh', url])
     
 def nndd(d):
     print("\n\t     /¯\_O_o_/\ ")
     print("\t_(ó-ó)/.*..run   \_O_o_")
-    subprocess.check_call(['./bash/./nndd.sh', d])
+    subprocess.check_call(['./nndd.sh', d])
     
-def headerFUZZ(url):
-
-    print("fuzz headers ", url)    
-
+def zfuzz(url):
+    try:
+       # para=""
+       # pnameC=[]
+       # up=urlparse(url)   
+       # u = up.scheme + "://" +up.netloc + up.path
+       # tmp = up.query.split("&")
+       # for d in tmp:
+       #     pnameC.append(d.split('=')[0])
+       # for d in pnameC:
+       #     para+=d+"=FUZZ"    
+        
+        #u = up.scheme + "://" +up.netloc + up.path + para
+        #print("zfuzz ", u)    
+        print("\n\t     /¯\_O_o_/\ ")
+        print("\t_(ó-ó)/zfuzz run   \_O_o_")
+        url=url.strip()
+        file=open("zionk.vul.fuzz","r")
+        with open("zionk.vul.fuzz") as f:
+            payloads = f.read().splitlines()
+        #payloads = [payloads.rstrip() for x in payloads]
+        #payloads = [payloads.lstrip() for x in payloads]
+        for p in payloads:
+            p=p.lstrip()
+            p=p.rstrip()
+            urf=url
+            urf=str(urf.strip())+"/"+str(p.strip())
+            #urf=urf.replace("\r\n\r\n","")
+            urf = "".join(urf.split())
+            subprocess.check_call(['./zFuzz.sh', urf])
+    except:
+        print("zioFuzz err")
+    
 def isDup(endp, actu):    
+
+#   check if url is a dup o_O/ 
+#   https://pwned.oo/?para1=39983u9&para2=3989378,https://pwned.oo/?para1=3&para2=89usjk <- dup
+#   https://pwned.oo/?para1=39983u9&para2=3989378&para3=93 <- new parameter, not dup , https://pwned.oo/?para1=39983u9&para2=3989378&para3=39  <- dup
+
+#   reminder, fix this ugly function using unfurl or urlparse
+
     dup = False    
     pnameC =[]
     pnameE = []
@@ -73,6 +121,9 @@ def isDup(endp, actu):
     return dup
 
 def strCh(u, conOk):
+
+#   check if url is valid
+#   
     xbit=[]
     xbit.append(validators.url(u))
     xbit.append(statCh(u))
@@ -100,14 +151,14 @@ def errIT(urls):
     
     lisl=len(urls)
     if lisl >=1:
-        print("\t                    /¯\_O_o_/\ ")
+        print("\t                    /¯\_O_o_/\ ")   
         print("\t\____O_x)_/ \_(ó-ó)/          \_O_o_/¯")
-        print("\n\t\t\tGot some fine LiN3s ",len(urls))
+        print("\n\t\t\t[i] Got some fine LiN3s ",len(urls))
         print("\t\n\_(ó-ó)/°°¹¹°¹°°¹¹°¹¹¹°°¹¹¹¹¹°¹°°¹°°¹)-(O_o_/")
-       
+        
 
       
-    print("\n moving file.. _/\(oO)/\_\n")
+    print("\n[i] moving file.. _/\(oO)/\_\n")
     enddups = []     
     conErr=[]
     conOk=[]
@@ -116,70 +167,96 @@ def errIT(urls):
     dc=0   
     status=True
     for e in urls:
-        
         us = urlparse(e)
         nlock = us.netloc
         us=(us.scheme+"://"+us.netloc)    
-        if strCh(us,conOk):
-            if isDup(endpScan, e)==False:
-                
+        # 3 checks before adding url for scanning
+        if strCh(us,conOk): # if valid url and if responding
+            conOk.append(us)
+            if isDup(endpScan, e)==False: # if not a duplicate. Checks only whats in the endpscan list
+                print("[i] saving : ", e)
                 endpScan.append(e)
             else:
+                print("[i] dup++ ", e)
                 enddups.append(e)    
         else:
+            print("[i] con.err++ ", e)
             conErr.append(us)
                
-
-
-
-    ulist=list(set(endpScan))    
-    
+    ulist=list(set(endpScan)) 
+ 
     for url in ulist:
         global endpDone
         if url not in endpDone:
+            
             notex = urlparse(url)
-            if not notex.path.endswith("min.js") or not notex.path.endswith(".pdf") or not notex.path.endswith(".png") or not notex.path.endswith(".css") or not notex.path.endswith(".jpg") or not notex.path.endswith(".jpeg") or not notex.path.endswith(".gif") or not notex.path.endswith(".svg")   or not notex.path.endswith(".woff") or not notex.path.endswith(".ttf") or not notex.path.endswith(".js"):
-                
+            forbExt = [".pdf",".png",".css",".jpg","jpeg",".gif",".svg",".woff",".ttf"]
+            #if not notex.path.endswith not in forbExt:
+            if statCh(url)==True:
+
+          
                 try:
                     xssRUN(url)
                 except:
-                    print("eRRxss ",url)
-                try:    
-                    bonIt(url)
+                    print("eRRxss ",url) # xsstrike <3
+
+                try:
+                    injuRUN(url) # injectus
                 except:
-                    print("eRRbonit ",url)
-                endpDone.append(url)
+                    print("injusERR ",url)
+               
+                #try:    
+                #    bonIt(url)  # bountyit
+                #except:
+                #    print("eRRbonit ",url)
+            #global endpDone
+            endpDone.append(url)
+        else:
+            print("[i] url in history - ",d)
+
+
 
     dlist=list(set(conOk))
+    # dlist should only hold the domain without paths and paramters
     for d in dlist:
-        global domDone
-        
+        global domDone  
         if d not in domDone:
-          
             try:
-                arjun(d)
+                zfuzz(d) #
+                 
+            except:
+                print("zfuzzErr ",d)
+            #try:
+            #    sqlmap(d) # sqlmap crawl
+           # except:
+           #     print("eRRsqlmap ",d)           
+            try:
+                arjun(d) # find more parameters
             except:
                 print("eRRarjun ",d)
             
             try:                
-                nndd(d)
+                nndd(d) # whatweb, skipfish gobuster, and simple header fuzz using curl
                            
             except:
                 print("eRRndd ",d)
-                
+            #try:
+            #    zFuzz(url)
+           # except:
+            #    print("zFuzz ",url)   
+            #global domDone             
             domDone.append(d)
-            
+        else:
+            print("[i] url in history - ",d)
             
 def statCh(u):
-    return True
-    r=requests.get(u)
-    if r.status_code:
-        print(r.status_code)
-        print(u)
+    
+    try:
+        requests.get(u)
         return True
-    else:
+    except:
        return False
-
+    
 
 def hcheck(url):
     return False 
@@ -205,27 +282,23 @@ def moveF(path,fl):
 def banner():
     os.system('clear')
     banner = '''
-    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
-    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
-    MMMMMMMMMMMMMMNNmdddhhhhhdddmNNMMMMMMMMMMMMMM
-    MMMMMMMMMMmmhhhhhdddddhddhhhhhhhdmMMMMMMMMMMM
+            mdddhhhhhdddmNNMMMMMMMMMMMMMM
+        MMMMMMmmhhhhhdddddhddhhhhhhhdmMMMMMMMMMMM
     MMMMMMMMmhyhhhhdNMMMMMMMNNmhhhhhhhhdNMMMMMMMM
     MMMMMMmhhhhhhhdMMMMMMMNdhhhhhhhhhhhhhhmMMMMMM
     MMMMMdhhhhhhhdNMMMMMMMdhhhhhhhhhhhhhhhhmMMMMM
-    MMMNhhhhhhhhhmMMMMMMMMMmdhhhhhhhhhhhhhhhdNMMM
+    MMMNhhhhhhhhhmMMMMMMMMMmdhhhhhhhhhhhhhhhdNM
     mMNhhhhhhhhhmMMMMMMMMMMMMNmhhhhhhhhhhhhhhdMMM
     dMmhhhhhhhhhMMMMMMMMMMMMMMMNhhhhhhhhhhhhhhNMM
     MNhhhhhhhhhhMMMMMMMMMMMMMMMMdhhhhhhhhhhhhhmMM
     MNhhhhhhhhhhmMMMMMMMMMMMMMMMNhhhhhhhhhhhhhhNM
     MNhhhhhhhhhhhmMMMMMMMMMMMMMMMmhhhhhhhhhhhhhNM
     MNhhhhhhhhhhhhmMMMMMMMMMMMMMMNhhhhhhhhhhhhmMM
-    MMdhhhhhhhhhhhhmMMMMMMMMMMMMMMdhhhhhhhhhhhNMM
+     MdhhhhhhhhhhhhmMMMMMMMMMMMMMMdhhhhhhhhhhhNMM
     MMNhhhhhhhhhhhhhdMMmhdmNMMMMMMmhhhhhhhhhhdMMM
     MMMNhhhhhhhhhhhhhNNdhhhhhdNMMMMNdhhhhhhhdNMMM
     MMMMMhhhhhhhhhhhdmhhhhhhhhNmMMMMMNhhhhhhMMMMM
-    MMMMMMmhhhhhhddmNhhhhhhdddNmhmNMMMdhhhmMMMMMM
-    MMMMMMMMmhhhdddmmmmhhhhhhdddhhhhdhhdNMMMMMMMM
-    MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+    MMMMMMmhhhhhhddmNhhhhhhdddNmhmNMMMdhhhmM
     MMMMMMMMMMMMM    zaut0 beta   MMMMMMMMMMMMMMM
     '''
     print(banner)    
@@ -253,7 +326,8 @@ def main():
             scanIT(spath,scanthis)
         else:
             print("\t___(X_X)_____\n")
-            print("\t..more LINES plz..die()\n")
+            print("\t..more LINES plz..")
+            print("calling.die()\n")
             exit()
             #moveF(hpath,scanthis) 
    
